@@ -104,5 +104,8 @@ Search and modify the below line in .idea workspace.xml
 ### BrowserStack Dashboard
 ![image](/Docs/screens/browserStack.png)      
 
+### RabbitMQ Dashboard
+![image](/Docs/screens/rabbitmq.png)
+
 ### LogsView
 ![image](/Docs/screens/logs.png)      

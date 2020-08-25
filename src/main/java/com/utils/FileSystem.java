@@ -26,6 +26,8 @@ package com.utils;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -44,7 +46,7 @@ public class FileSystem {
 
     private static final Logger logger = LogManager.getLogger(FileSystem.class);
 
-    public void downloadDriver() throws Exception{
+    public void downloadDriver() throws Exception {
         String fromFile = "https://chromedriver.storage.googleapis.com/81.0.4044.138/chromedriver_win32.zip";
         String toFile = "Driver/chromedriver.zip";
         String destination = "Driver";
@@ -178,6 +180,52 @@ public class FileSystem {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void FTPGetFileDetails(String server, String user, String pass) {
+        int port = 21;
+
+        FTPClient ftpClient = new FTPClient();
+
+        try {
+            ftpClient.connect(server, port);
+            ftpClient.login(user, pass);
+
+            // use local passive mode to pass firewall
+            ftpClient.enterLocalPassiveMode();
+
+            // get details of a file or directory
+            String remoteFilePath = "Java/CodeLib/FTP.rar";
+
+            FTPFile ftpFile = ftpClient.mlistFile(remoteFilePath);
+            if (ftpFile != null) {
+                String name = ftpFile.getName();
+                long size = ftpFile.getSize();
+                String timestamp = ftpFile.getTimestamp().getTime().toString();
+                String type = ftpFile.isDirectory() ? "Directory" : "File";
+
+                logger.info("Name: " + name);
+                logger.info("Size: " + size);
+                logger.info("Type: " + type);
+                logger.info("Timestamp: " + timestamp);
+            } else {
+                logger.info("The specified file/directory may not exist!");
+            }
+
+            ftpClient.logout();
+            ftpClient.disconnect();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (ftpClient.isConnected()) {
+                try {
+                    ftpClient.disconnect();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
     }
 }

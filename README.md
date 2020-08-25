@@ -85,3 +85,5 @@ Search and modify the below line in .idea workspace.xml
     <property name="dynamic.classpath" value="true" />
 </component>
 ```
+
+<!--- Credits: https://codeburst.io/get-started-with-rabbitmq-on-docker-4428d7f6e46b -->

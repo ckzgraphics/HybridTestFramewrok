@@ -43,3 +43,15 @@ services:
     ]
     ports:
       - "127.0.0.1:8082:8082"
+
+  rabbitmq:
+    image: rabbitmq:3.8.7-management
+    hostname: my-rabbit
+    volumes:
+      - ./input/rabbitmq/etc/definitions.json:/etc/rabbitmq/definitions.json
+      - ./input/rabbitmq/etc/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./rabbitmq/data:/var/lib/rabbitmq/mnesia/rabbit@my-rabbit
+      - ./rabbitmq/logs:/var/log/rabbitmq/log
+    ports:
+      - 5672:5672
+      - 15672:15672
